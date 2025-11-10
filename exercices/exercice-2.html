@@ -57,7 +57,56 @@ const selectLangue = document.querySelector('#langue');
 const checkboxModeSombre = document.querySelector('#modeSombre');
 const affichagePreferences = document.querySelector('#affichagePreferences');
 
-      // On va écrire le JavaScript ici
+// Fonction pour afficher les préférences
+
+function sauvegarderPreferences() {
+  const preferences = {
+    nom: inputNom.value,
+    couleur: selectCouleur.value,
+    langue: selectLangue.value,
+    modeSombre: checkboxModeSombre.checked
+  };
+
+
+  // On convertit l'objet en chaîne JSON pour le localStorage
+  localStorage.setItem('preferencesUtilisateur', JSON.stringify(preferences));
+
+  // On affiche un message de confirmation
+  affichagePreferences.textContent = 'Préférences sauvegardées !';
+}
+
+// Fonction pour charger les préférences
+function chargerPreferences() {
+  const preferencesString = localStorage.getItem('preferencesUtilisateur');
+
+  // Si aucune préférence n'est sauvegardée, on quitte la fonction
+  if (preferencesString === null) {
+    affichagePreferences.textContent = 'Aucune préférence sauvegardée.';
+    return;
+  }
+
+  // On convertit la chaîne JSON en objet
+  const preferences = JSON.parse(preferencesString);
+
+  // On remplit le formulaire avec les valeurs sauvegardées
+  inputNom.value = preferences.nom;
+  selectCouleur.value = preferences.couleur;
+  selectLangue.value = preferences.langue;
+  checkboxModeSombre.checked = preferences.modeSombre;
+
+  // On affiche un message
+  affichagePreferences.textContent = 'Préférences chargées !';
+}
+
+// Écouteurs d'événements pour sauvegarder automatiquement
+inputNom.addEventListener('change', sauvegarderPreferences);
+selectCouleur.addEventListener('change', sauvegarderPreferences);
+selectLangue.addEventListener('change', sauvegarderPreferences);
+checkboxModeSombre.addEventListener('change', sauvegarderPreferences);
+
+// Charger les préférences au démarrage de la page
+chargerPreferences();
+
     </script>
   </body>
 </html>
