@@ -35,7 +35,22 @@
       <h1>Exercice 1</h1>
 
       <!-- TODO: Créer l'interface utilisateur ici -->
-      <!-- - Champ texte pour saisir une valeur -->
+      <!-- Champ texte pour saisir une valeur -->
+      <div>
+        <label for="valeur">Valeur à sauvegarder :</label>
+        <input type="text" id="valeur" placeholder="Entrez une valeur...">
+      </div>
+
+<!-- Boutons d'action -->
+<div>
+  <button id="sauvegarder">Sauvegarder</button>
+  <button id="charger">Charger</button>
+  <button id="effacer">Effacer</button>
+</div>
+
+<!-- Élément pour afficher la valeur -->
+<div id="affichage"></div>
+-- - Champ texte pour saisir une valeur -->
       <!-- - Bouton "Sauvegarder" -->
       <!-- - Bouton "Charger" -->
       <!-- - Bouton "Effacer" -->
@@ -44,28 +59,41 @@
     </main>
 
     <script>
-      // TODO: ÉTAPE 1 - SÉLECTIONNER LES ÉLÉMENTS
-      // Utiliser querySelector pour récupérer :
-      // - Le champ texte (input)
-      // - Les trois boutons (Sauvegarder, Charger, Effacer)
-      // - L'élément où afficher la valeur
+      // Sélection des éléments
+      const inputValeur = document.querySelector('#valeur');
+      const boutonSauvegarder = document.querySelector('#sauvegarder');
+      const boutonCharger = document.querySelector('#charger');
+      const boutonEffacer = document.querySelector('#effacer');
+      const affichage = document.querySelector('#affichage');
 
-      // TODO: ÉTAPE 2 - GESTION DE LA SAUVEGARDE
-      // - Ajouter un event listener sur le bouton "Sauvegarder"
-      // - Récupérer la valeur du champ texte
-      // - Sauvegarder avec localStorage.setItem()
-      // - Afficher la valeur sauvegardée
+      // Sauvegarde de la valeur
+      boutonSauvegarder.addEventListener('click', function() {
+        const valeur = inputValeur.value;
+        if (valeur.trim() === '') {
+          affichage.textContent = 'Veuillez entrer une valeur.';
+          return;
+        }
+        localStorage.setItem('maValeur', valeur);
+        affichage.textContent = `Valeur "${valeur}" sauvegardée !`;
+      });
 
-      // TODO: ÉTAPE 3 - GESTION DU CHARGEMENT
-      // - Ajouter un event listener sur le bouton "Charger"
-      // - Récupérer la valeur avec localStorage.getItem()
-      // - Afficher la valeur récupérée
-      // - Gérer le cas où la valeur est null
+      // Chargement de la valeur
+      boutonCharger.addEventListener('click', function() {
+        const valeur = localStorage.getItem('maValeur');
+        if (valeur === null) {
+          affichage.textContent = 'Aucune valeur sauvegardée.';
+          return;
+        }
+        inputValeur.value = valeur;
+        affichage.textContent = `Valeur "${valeur}" chargée !`;
+      });
 
-      // TODO: ÉTAPE 4 - GESTION DE L'EFFACEMENT
-      // - Ajouter un event listener sur le bouton "Effacer"
-      // - Supprimer la valeur avec localStorage.removeItem()
-      // - Effacer l'affichage
+      // Effacement de la valeur
+      boutonEffacer.addEventListener('click', function() {
+        localStorage.removeItem('maValeur');
+        inputValeur.value = '';
+        affichage.textContent = 'Valeur effacée !';
+      });
 
     </script>
   </body>
