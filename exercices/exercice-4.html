@@ -5,103 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <link rel="stylesheet" href="css/pico.min.css">
-    <title>Exercice 4</title>
+    <title>Exercice 4 - Panier d'achat</title>
   </head>
   <body>
     <main class="container">
+      <h1>Exercice 4 : Panier d'achat</h1>
 
-      <!--
-        🛒 EXERCICE 4 : Système de panier d'achat
-        
-        OBJECTIF : Gérer des données complexes avec calculs en temps réel
-      
-        CONCEPTS UTILES :
-        - Tableaux d'objets complexes
-        - Méthode find() : rechercher un élément dans un tableau
-        - Méthode reduce() : calculer une valeur à partir d'un tableau
-        - Calculs mathématiques avec les prix
-        - Gestion des quantités et totaux
-        - Interface utilisateur avec grille CSS
-        
-        BONNES PRATIQUES :
-        - Toujours vérifier l'existence des données avant calculs
-        - Formater les prix avec toFixed(2)
-        - Gérer l'état vide du panier
-        - Rafraîchir l'affichage après chaque modification
-        - Utiliser des noms de variables clairs
-      -->
+      <!-- Liste des produits disponibles -->
+      <section>
+        <h2>Produits disponibles</h2>
+        <div id="listeProduits">
+          <!-- Les produits seront ajoutés ici dynamiquement -->
+        </div>
+      </section>
 
-      <h1>Exercice 4</h1>
-
-      <!-- TODO: Créer l'interface avec deux sections -->
-      <!-- - Section "Produits" avec liste des produits -->
-      <!-- - Section "Panier" avec articles et total -->
-
+      <!-- Panier -->
+      <section>
+        <h2>Votre panier</h2>
+        <ul id="panier"></ul>
+        <p>Total : <span id="total">0.00 €</span></p>
+      </section>
     </main>
 
     <script>
-      // TODO: ÉTAPE 1 - DÉFINIR LES PRODUITS
-      // Créer un tableau d'objets produits :
-      // - id: identifiant unique
-      // - name: nom du produit
-      // - price: prix (nombre)
-      // - image: emoji ou icône
-      // Exemple : { id: 1, name: "Ordinateur", price: 899.99, image: "💻" }
+      // Liste des produits disponibles
+const produitsDisponibles = [
+  { id: 1, nom: "Pomme", prix: 0.50 },
+  { id: 2, nom: "Banane", prix: 0.30 },
+  { id: 3, nom: "Pain", prix: 1.20 },
+  { id: 4, nom: "Lait", prix: 0.80 },
+];
 
-      // TODO: ÉTAPE 2 - SÉLECTIONNER LES ÉLÉMENTS
-      // Utiliser querySelector pour récupérer :
-      // - Conteneur des produits
-      // - Conteneur du panier
-      // - Élément pour afficher le total
-      // - Bouton "Vider le panier"
+      // Sélection des éléments du DOM
+const listeProduits = document.querySelector('#listeProduits');
+const panier = document.querySelector('#panier');
+const totalSpan = document.querySelector('#total');
 
-      // TODO: ÉTAPE 3 - INITIALISER LE PANIER
-      // - Récupérer le panier depuis localStorage
-      // - Utiliser JSON.parse() pour convertir
-      // - Gérer le cas vide : tableau vide
+// Panier (initialement vide)
+let panierUtilisateur = [];
 
-      // TODO: ÉTAPE 4 - FONCTION D'AFFICHAGE DES PRODUITS
-      // Créer renderProducts() qui :
-      // - Vide le conteneur des produits
-      // - Parcourt le tableau des produits
-      // - Crée une carte pour chaque produit
-      // - Ajoute un bouton "Ajouter au panier"
+// Fonction pour afficher les produits disponibles
+function afficherProduits() {
+  produitsDisponibles.forEach(produit => {
+    const divProduit = document.createElement('div');
+    divProduit.innerHTML = `
+      <p>${produit.nom} - ${produit.prix.toFixed(2)} €</p>
+      <button data-id="${produit.id}">Ajouter au panier</button>
+    `;
+    listeProduits.appendChild(divProduit);
+  });
 
-      // TODO: ÉTAPE 5 - AJOUTER AU PANIER
-      // - Ajouter event listener sur chaque bouton "Ajouter"
-      // - Vérifier si le produit existe déjà avec find()
-      // - Si existe : augmenter quantity
-      // - Si n'existe pas : ajouter nouvel article
-      // - Sauvegarder et rafraîchir
+  // Écouter les clics sur les boutons "Ajouter au panier"
+  document.querySelectorAll('#listeProduits button').forEach(bouton => {
+    bouton.addEventListener('click', (e) => {
+      const idProduit = parseInt(e.target.getAttribute('data-id'));
+      ajouterAuPanier(idProduit);
+    });
+  });
+}
+// Fonction pour charger le panier depuis le localStorage
+function chargerPanier() {
+  const panierString = localStorage.getItem('panier');
+  if (panierString !== null) {
+    panierUtilisateur = JSON.parse(panierString);
+  } else {
+    panierUtilisateur = [];
+  }
+  afficherPanier();
+}
+// Fonction pour sauvegarder le panier dans le localStorage
+function sauvegarderPanier() {
+  localStorage.setItem('panier', JSON.stringify(panierUtilisateur));
+}
+// Fonction pour ajouter un produit au panier
+function ajouterAuPanier(idProduit) {
+  const produit = produitsDisponibles.find(p => p.id === idProduit);
+  if (!produit) return; // Si le produit n'existe pas, on quitte
 
-      // TODO: ÉTAPE 6 - FONCTION D'AFFICHAGE DU PANIER
-      // Créer renderCart() qui :
-      // - Vide le conteneur du panier
-      // - Affiche message si panier vide
-      // - Parcourt les articles du panier
-      // - Calcule le total par article (prix × quantité)
-      // - Affiche chaque article avec boutons d'action
+  // Vérifier si le produit est déjà dans le panier
+  const produitDansPanier = panierUtilisateur.find(item => item.id === idProduit);
 
-      // TODO: ÉTAPE 7 - MODIFIER LES QUANTITÉS
-      // Pour chaque article du panier :
-      // - Bouton "+" : augmenter quantity
-      // - Bouton "-" : diminuer quantity
-      // - Si quantity <= 0 : supprimer l'article
-      // - Bouton "Supprimer" : supprimer complètement
+  if (produitDansPanier) {
+    // Si le produit est déjà dans le panier, on incrémente la quantité
+    produitDansPanier.quantity += 1;
+  } else {
+    // Sinon, on l'ajoute avec une quantité de 1
+    panierUtilisateur.push({
+      id: produit.id,
+      nom: produit.nom,
+      prix: produit.prix,
+      quantity: 1
+    });
+  }
 
-      // TODO: ÉTAPE 8 - CALCULER LE TOTAL
-      // - Utiliser reduce() pour calculer le total général
-      // - Formater avec toFixed(2)
-      // - Afficher dans l'élément total
+  sauvegarderPanier();
+  afficherPanier();
+}
+// Fonction pour afficher le panier
+function afficherPanier() {
+  // Vider le panier actuel
+  panier.innerHTML = '';
 
-      // TODO: ÉTAPE 9 - VIDER LE PANIER
-      // - Event listener sur bouton "Vider le panier"
-      // - Vider le tableau du panier
-      // - Sauvegarder et rafraîchir
+  // Calculer le total
+  let total = 0;
 
-      // TODO: ÉTAPE 10 - INITIALISATION
-      // - Appeler renderProducts() et renderCart()
-      // - Utiliser DOMContentLoaded
+  // Parcourir les éléments du panier
+  panierUtilisateur.forEach((item, index) => {
+    const li = document.createElement('li');
+    const prixTotalItem = item.prix * item.quantity;
+    total += prixTotalItem;
+
+    li.innerHTML = `
+      ${item.nom} - ${item.prix.toFixed(2)} € x ${item.quantity} =
+      <strong>${prixTotalItem.toFixed(2)} €</strong>
+      <button data-index="${index}" class="supprimer">Supprimer</button>
+      <button data-index="${index}" class="modifier">+1</button>
+    `;
+
+    panier.appendChild(li);
+  });
+
+  // Mettre à jour le total
+  totalSpan.textContent = `${total.toFixed(2)} €`;
+
+  // Écouter les clics sur les boutons "Supprimer" et "+1"
+  document.querySelectorAll('.supprimer').forEach(bouton => {
+    bouton.addEventListener('click', (e) => {
+      const index = parseInt(e.target.getAttribute('data-index'));
+      supprimerDuPanier(index);
+    });
+  });
+
+  document.querySelectorAll('.modifier').forEach(bouton => {
+    bouton.addEventListener('click', (e) => {
+      const index = parseInt(e.target.getAttribute('data-index'));
+      panierUtilisateur[index].quantity += 1;
+      sauvegarderPanier();
+      afficherPanier();
+    });
+  });
+}
+
+// Fonction pour supprimer un produit du panier
+function supprimerDuPanier(index) {
+  panierUtilisateur.splice(index, 1);
+  sauvegarderPanier();
+  afficherPanier();
+}
+// Initialiser l'application
+window.addEventListener('DOMContentLoaded', () => {
+  afficherProduits();
+  chargerPanier();
+});
 
     </script>
   </body>
