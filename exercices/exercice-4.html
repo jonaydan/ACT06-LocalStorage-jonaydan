@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="css/pico.min.css">
+    <title>Exercice 4</title>
+  </head>
+  <body>
+    <main class="container">
+
+      <!--
+        🛒 EXERCICE 4 : Système de panier d'achat
+        
+        OBJECTIF : Gérer des données complexes avec calculs en temps réel
+      
+        CONCEPTS UTILES :
+        - Tableaux d'objets complexes
+        - Méthode find() : rechercher un élément dans un tableau
+        - Méthode reduce() : calculer une valeur à partir d'un tableau
+        - Calculs mathématiques avec les prix
+        - Gestion des quantités et totaux
+        - Interface utilisateur avec grille CSS
+        
+        BONNES PRATIQUES :
+        - Toujours vérifier l'existence des données avant calculs
+        - Formater les prix avec toFixed(2)
+        - Gérer l'état vide du panier
+        - Rafraîchir l'affichage après chaque modification
+        - Utiliser des noms de variables clairs
+      -->
+
+      <h1>Exercice 4</h1>
+
+      <!-- TODO: Créer l'interface avec deux sections -->
+      <!-- - Section "Produits" avec liste des produits -->
+      <!-- - Section "Panier" avec articles et total -->
+
+    </main>
+
+    <script>
+      // TODO: ÉTAPE 1 - DÉFINIR LES PRODUITS
+      // Créer un tableau d'objets produits :
+      // - id: identifiant unique
+      // - name: nom du produit
+      // - price: prix (nombre)
+      // - image: emoji ou icône
+      // Exemple : { id: 1, name: "Ordinateur", price: 899.99, image: "💻" }
+
+      // TODO: ÉTAPE 2 - SÉLECTIONNER LES ÉLÉMENTS
+      // Utiliser querySelector pour récupérer :
+      // - Conteneur des produits
+      // - Conteneur du panier
+      // - Élément pour afficher le total
+      // - Bouton "Vider le panier"
+
+      // TODO: ÉTAPE 3 - INITIALISER LE PANIER
+      // - Récupérer le panier depuis localStorage
+      // - Utiliser JSON.parse() pour convertir
+      // - Gérer le cas vide : tableau vide
+
+      // TODO: ÉTAPE 4 - FONCTION D'AFFICHAGE DES PRODUITS
+      // Créer renderProducts() qui :
+      // - Vide le conteneur des produits
+      // - Parcourt le tableau des produits
+      // - Crée une carte pour chaque produit
+      // - Ajoute un bouton "Ajouter au panier"
+
+      // TODO: ÉTAPE 5 - AJOUTER AU PANIER
+      // - Ajouter event listener sur chaque bouton "Ajouter"
+      // - Vérifier si le produit existe déjà avec find()
+      // - Si existe : augmenter quantity
+      // - Si n'existe pas : ajouter nouvel article
+      // - Sauvegarder et rafraîchir
+
+      // TODO: ÉTAPE 6 - FONCTION D'AFFICHAGE DU PANIER
+      // Créer renderCart() qui :
+      // - Vide le conteneur du panier
+      // - Affiche message si panier vide
+      // - Parcourt les articles du panier
+      // - Calcule le total par article (prix × quantité)
+      // - Affiche chaque article avec boutons d'action
+
+      // TODO: ÉTAPE 7 - MODIFIER LES QUANTITÉS
+      // Pour chaque article du panier :
+      // - Bouton "+" : augmenter quantity
+      // - Bouton "-" : diminuer quantity
+      // - Si quantity <= 0 : supprimer l'article
+      // - Bouton "Supprimer" : supprimer complètement
+
+      // TODO: ÉTAPE 8 - CALCULER LE TOTAL
+      // - Utiliser reduce() pour calculer le total général
+      // - Formater avec toFixed(2)
+      // - Afficher dans l'élément total
+
+      // TODO: ÉTAPE 9 - VIDER LE PANIER
+      // - Event listener sur bouton "Vider le panier"
+      // - Vider le tableau du panier
+      // - Sauvegarder et rafraîchir
+
+      // TODO: ÉTAPE 10 - INITIALISATION
+      // - Appeler renderProducts() et renderCart()
+      // - Utiliser DOMContentLoaded
+
+    </script>
+  </body>
+</html>
