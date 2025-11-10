@@ -30,10 +30,10 @@
     <script>
       // Liste des produits disponibles
 const produitsDisponibles = [
-  { id: 1, nom: "Pomme", prix: 0.50 },
-  { id: 2, nom: "Banane", prix: 0.30 },
-  { id: 3, nom: "Pain", prix: 1.20 },
-  { id: 4, nom: "Lait", prix: 0.80 },
+  { id: 1, nom: "Pomme", prix: 0.50, emoji: "🍎" },
+  { id: 2, nom: "Banane", prix: 0.30, emoji: "🍌" },
+  { id: 3, nom: "Pain", prix: 1.20, emoji: "🍞" },
+  { id: 4, nom: "Lait", prix: 0.80, emoji: "🥛" },
 ];
 
       // Sélection des éléments du DOM
@@ -48,8 +48,14 @@ let panierUtilisateur = [];
 function afficherProduits() {
   produitsDisponibles.forEach(produit => {
     const divProduit = document.createElement('div');
+    divProduit.style.marginBottom = '1rem';
+    divProduit.style.padding = '1rem';
+    divProduit.style.border = '1px solid #ddd';
+    divProduit.style.borderRadius = '8px';
     divProduit.innerHTML = `
-      <p>${produit.nom} - ${produit.prix.toFixed(2)} €</p>
+      <h3 style="font-size: 3rem; margin: 0;">${produit.emoji}</h3>
+      <p style="margin: 0.5rem 0;"><strong>${produit.nom}</strong></p>
+      <p style="margin: 0.5rem 0; color: #0172ad; font-weight: bold;">${produit.prix.toFixed(2)} €</p>
       <button data-id="${produit.id}">Ajouter au panier</button>
     `;
     listeProduits.appendChild(divProduit);
@@ -94,6 +100,7 @@ function ajouterAuPanier(idProduit) {
       id: produit.id,
       nom: produit.nom,
       prix: produit.prix,
+      emoji: produit.emoji,
       quantity: 1
     });
   }
@@ -106,6 +113,13 @@ function afficherPanier() {
   // Vider le panier actuel
   panier.innerHTML = '';
 
+  // Si le panier est vide, afficher un message
+  if (panierUtilisateur.length === 0) {
+    panier.innerHTML = '<li style="list-style: none; color: #888;">🛒 Votre panier est vide</li>';
+    totalSpan.textContent = '0.00 €';
+    return;
+  }
+
   // Calculer le total
   let total = 0;
 
@@ -116,7 +130,8 @@ function afficherPanier() {
     total += prixTotalItem;
 
     li.innerHTML = `
-      ${item.nom} - ${item.prix.toFixed(2)} € x ${item.quantity} =
+      <span style="font-size: 1.5rem;">${item.emoji || '📦'}</span>
+      <strong>${item.nom}</strong> - ${item.prix.toFixed(2)} € x ${item.quantity} =
       <strong>${prixTotalItem.toFixed(2)} €</strong>
       <button data-index="${index}" class="supprimer">Supprimer</button>
       <button data-index="${index}" class="modifier">+1</button>
